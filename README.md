@@ -5,37 +5,85 @@
 [![Python Version](https://img.shields.io/pypi/pyversions/omoide-app.svg)](https://pypi.org/project/omoide-app/)
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 
-Main Omoide application
+Главное приложение проекта [Omoide](https://omoide.ru).
 
+## Что делает
 
-## Features
+Выступает фасадом для пользователей, демонстрируя им картинки. Обычное web
+приложение с базой данных, формами и прочими стандартными атрибутами.
 
-- Fully typed with annotations and checked with mypy, [PEP561 compatible](https://www.python.org/dev/peps/pep-0561/)
-- Add yours!
+## Установка и запуск
 
+TODO - Описать как запускать контейнер.
 
-## Installation
+## Как работает
 
-```bash
-pip install omoide-app
-```
+В качестве web фреймворка взят `Flask`, управление процессами сервера через
+`Gunicorn`. База данных `PostgreSQL` с коннектором `psycopg2` и ORM
+`SQLAlchemy`. Отдача статики осуществляется через `NGINX`. Из-за скудных
+вычислительных мощностей сервера системы кеширования нет, а так был бы `Redis`.
+Работа протестирована `pytest`.
 
+## Основные эндпоинты сервера
 
-## Example
+### / и /search
 
-Showcase how your project can be used:
+Исходный поиск картинок и вывод результатов.
 
-```python
-from omoide_app.example import some_function
+### /login и /logout
 
-print(some_function(3, 4))
-# => 7
-```
+Вход и выход пользователя с сайта.
+
+### /show/<uuid>
+
+Предварительный просмотр. Обычно это демонстрация контента среднего качества с
+выводом всех подробностей о записи.
+
+### /thumbnail/<filename>
+
+Просмотр контента в минимальном качестве.
+
+### /preview/<filename>
+
+Просмотр контента в среднем качестве.
+
+### /content/<filename>
+
+Просмотр контента в оригинальном качестве.
+
+### /browse/<uuid>
+
+Просмотр коллекции. Если uuid принадлежит единичной записи, происходит
+переадресация на /preview.
+
+### /newest
+
+Перечень последних добавленных и доступных для просмотра материалов.
+
+### /feedback
+
+Страница с формой обратной связи.
+
+### /help
+
+Страница с инструкцией к сайту.
+
+### /tags
+
+Страница с перечнем всех доступных для просмотра тегов.
+
+### /home
+
+Домашняя страница пользователя. Здесь можно изменить имя и отображаемый логин.
+
+### /navigation
+
+Здесь можно настроить отображаемые записи. Для зарегистрированных пользователей
+они хранятся в базе данных, а для анонимных - в кукисах.
 
 ## License
 
 [MIT](https://github.com/IgorZyktin/omoide-app/blob/master/LICENSE)
-
 
 ## Credits
 
